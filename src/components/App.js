@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "./Button";
+import Board from "./Board";
 import Header from "./Header";
 
 const App = () => {
@@ -9,9 +9,7 @@ const App = () => {
             <br/>
             <div>Hi There. Click the buttons!</div>
             <br/>
-            <Button status="off"/>
-            <Button status="on"/>
-            <Button/>
+            <Board />
         </div>
     );
 };
