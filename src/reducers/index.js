@@ -5,9 +5,17 @@ const boardReducer = (board = [], action) => {
         board = [{id: '1', status:'on'},{id: '2', status: 'off'}, {id: '3', status: 'on'}];
     }
 
-    return board;
+    if (action.type === 'CLICK_TILE') {
+        board.forEach((tile) => {
+            if(tile.id === action.payload.props.id)
+            {
+                tile.status = tile.status === "on" ? "off" : "on";
+            }
+        });
+        board = [...board];
+    }
 
-    // return [{id: '1', status:'on'},{id: '2', status: 'off'}, {id: '3', status: 'on'}];
+    return board;
 }
 
 export default combineReducers ({

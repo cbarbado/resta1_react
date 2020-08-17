@@ -1,3 +1,10 @@
+export const clickTile = tile => {
+    return {
+        type: 'CLICK_TILE',
+        payload: tile
+    };
+};
+
 export const pickPiece = position => {
     return {
         type: 'PICK_PIECE',
