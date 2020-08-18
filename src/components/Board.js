@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import './Board.css';
+
 import Tile from './Tile';
 import { resetBoard } from '../actions';
 
@@ -13,7 +15,7 @@ class Board extends Component {
         return(
             row.map((col) => {
                 return(
-                    <div key={col.id} className="col s1">
+                    <div key={col.id} className="col s1 nomargin">
                         <Tile id={col.id} status={col.status}/>
                     </div>
                 );
@@ -27,9 +29,9 @@ class Board extends Component {
             const row_key = "row" + count++;
             return (
                 <div key={row_key} className="row">
-                    <div className="col s1">
+                    <div className="flexbox">
+                        {this.renderRow(row)}
                     </div>
-                    {this.renderRow(row)}
                 </div>
             );
         });
