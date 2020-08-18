@@ -9,7 +9,7 @@ const App = () => {
             <br/>
             <div>Hi There. Click the buttons!</div>
             <br/>
-            <Board />
+            <Board/>
         </div>
     );
 };

@@ -15,12 +15,22 @@ class Tile extends Component {
         e.preventDefault();
         this.props.clickTile(this)
     }
+
+    renderTile() {
+        switch (this.props.status) {
+            case "1":
+                return <button className={'btn-floating btn-large waves-effect waves-light grey lighten-2'} onClick={this.onClick}> </button>
+            case "2":
+                return <button className={'btn-floating btn-large waves-effect waves-light blue'} onClick={this.onClick}> </button>
+            default:
+                return <p></p>
+        }
+    }
     
     render() {
-        const color = this.props.status === "on" ? "blue" : "grey lighten-2";
         return (
-            <div style={{margin: '10px'}}>
-                <a href="/#" className={`btn-floating btn-large waves-effect waves-light ${color}`} onClick={this.onClick}> </a>
+            <div>
+                {this.renderTile()}
             </div>
         )
     }
