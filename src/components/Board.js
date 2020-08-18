@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+//TODO: move to default.css in index.html file
 import './Board.css';
 
 import Tile from './Tile';

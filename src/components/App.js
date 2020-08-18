@@ -1,15 +1,18 @@
 import React from "react";
 import Board from "./Board";
 import Header from "./Header";
+import Footer from "./Footer";
 
+// TODO: add footer
 const App = () => {
     return(
         <div className="container">
             <Header />
             <br/>
-            <div>Hi There. Click the buttons!</div>
             <br/>
             <Board/>
+            <br/>
+            <Footer/>
         </div>
     );
 };
