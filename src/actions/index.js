@@ -19,6 +19,13 @@ export const dropPiece = position => {
     };
 };
 
+export const releasePiece = position => {
+    return {
+        type: 'RELEASE_PIECE',
+        payload: position
+    };
+};
+
 export const undoMove = () => {
     return {
         type: 'UNDO_MOVE',

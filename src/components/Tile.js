@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { clickTile } from '../actions';
+import { pickPiece, dropPiece, releasePiece } from '../actions';
 
 class Tile extends Component {
     constructor(props) {
@@ -8,20 +8,50 @@ class Tile extends Component {
         // Need to bind this to have acess to it inside the onClick function.
         // Another option is to convert onClick to and arrow function, since
         // arrow functions automatically bind the value of this!!!
-        this.onClick = this.onClick.bind(this);
+        // this.onClick = this.onClick.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+        this.onDrag = this.onDrag.bind(this);
+        this.onDragEnd = this.onDragEnd.bind(this);
     }
 
+    /*
     onClick(e) {
         e.preventDefault();
         this.props.clickTile(this)
+    }
+    */
+
+    // TODO: check how to capture drops out of buttons!!!
+    onDrop(e) {
+        this.props.dropPiece(this);
+    }
+
+    onDrag(e) {
+        this.props.pickPiece(this);
+    }
+
+    onDragEnd(e) {
+        this.props.releasePiece(this);
     }
 
     renderTile() {
         switch (this.props.status) {
             case "1":
-                return <button className={'btn-floating btn-large waves-effect waves-light grey lighten-2'} onClick={this.onClick}> </button>
+                return <button
+                            onDrop={(e) => {this.onDrop(e)}}
+                            onDragOver={(e) => e.preventDefault()}
+                            onDragEnd={(e) => {this.onDragEnd(e)}}
+                            className={'btn-floating btn-large waves-effect waves-light grey lighten-2'}>
+                        </button>
             case "2":
-                return <button className={'btn-floating btn-large waves-effect waves-light blue'} onClick={this.onClick}> </button>
+                return <button
+                            draggable="true"
+                            onDragStart={(e) => {this.onDrag(e)}}
+                            onDrop={(e) => {this.onDrop(e)}}
+                            onDragOver={(e) => e.preventDefault()}
+                            onDragEnd={(e) => {this.onDragEnd(e)}}
+                            className={'btn-floating btn-large waves-effect waves-light blue'}>
+                        </button>
             default:
                 return <p></p>
         }
@@ -40,4 +70,4 @@ const mapStateToProps = (state) => {
     return { board: state.board };
 }
 
-export default connect(mapStateToProps, { clickTile })(Tile);
+export default connect(mapStateToProps, { pickPiece, dropPiece, releasePiece })(Tile);
