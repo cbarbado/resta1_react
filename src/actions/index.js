@@ -35,7 +35,7 @@ export const undoMove = () => {
 
 export const redoMove = () => {
     return {
-        type: 'UNDO_MOVE',
+        type: 'REDO_MOVE',
         payload: null
     };
 };

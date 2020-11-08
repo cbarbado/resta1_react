@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+//TODO: Make board responsive
 //TODO: move to default.css in index.html file
 import './Board.css';
 

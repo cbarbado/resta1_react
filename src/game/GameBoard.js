@@ -31,7 +31,7 @@ class GameBoard {
 
     pick(posX, posY) {
         if(this.board[posY][posX].status === "2") {
-            this.board[posY][posX].status = "1";
+            this.board[posY][posX].status = "3";
             this.pickX = posX;
             this.pickY = posY;  
         }
@@ -39,6 +39,18 @@ class GameBoard {
             this.pickX = null;
             this.pickY = null;  
         }
+        return [...this.board];
+    }
+
+    undoMove() {
+        // TODO: Implement undo
+        console.log("undo")
+        return [...this.board];
+    }
+
+    redoMove() {
+        // TODO: Implement redo
+        console.log("redo")
         return [...this.board];
     }
 
@@ -83,6 +95,7 @@ class GameBoard {
         return [...this.board];
     }
 
+    // TODO: Implement save moves
     move(posX,posY) {
         if(this.validMove(posX,posY)) {
             this.board[this.pickY][this.pickX].status = "1";

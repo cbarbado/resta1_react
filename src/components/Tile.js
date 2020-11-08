@@ -45,6 +45,13 @@ class Tile extends Component {
                             onDragEnd={(e) => {this.onDragEnd(e)}}
                             className={'btn-floating btn-large waves-effect waves-light blue'}>
                         </button>
+            case "3":
+                return <button
+                            onDrop={(e) => {this.onDrop(e)}}
+                            onDragOver={(e) => e.preventDefault()}
+                            onDragEnd={(e) => {this.onDragEnd(e)}}
+                            className={'btn-floating btn-large waves-effect waves-light blue lighten-4'}>
+                        </button>
             default:
                 return <p></p>
         }

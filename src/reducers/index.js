@@ -26,6 +26,14 @@ const boardReducer = (board = [], action) => {
         return gameBoard.release();
     }
 
+    if (action.type === 'UNDO_MOVE') {
+        return gameBoard.undoMove();
+    }
+
+    if (action.type === 'REDO_MOVE') {
+        return gameBoard.redoMove();
+    }
+
     return board;
 }
 

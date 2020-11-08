@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { resetBoard } from '../actions';
+import { resetBoard, undoMove, redoMove } from '../actions';
 
 class Header extends Component {
     onReplay = (e) => {
@@ -11,11 +11,13 @@ class Header extends Component {
     // TODO: Implement "undo" action.
     onUndo = (e) => {
         e.preventDefault();
+        this.props.undoMove();
     }
 
     // TODO: Implement "redo" action.
     onRedo = (e) => {
         e.preventDefault();
+        this.props.redoMove();
     }
 
     render() {
@@ -40,4 +42,4 @@ const mapStateToProps = (state) => {
     return { board: state.board };
 }
 
-export default connect(mapStateToProps, { resetBoard })(Header);
+export default connect(mapStateToProps, { resetBoard, undoMove, redoMove })(Header);
