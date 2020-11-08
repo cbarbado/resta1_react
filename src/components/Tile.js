@@ -14,13 +14,6 @@ class Tile extends Component {
         this.onDragEnd = this.onDragEnd.bind(this);
     }
 
-    /*
-    onClick(e) {
-        e.preventDefault();
-        this.props.clickTile(this)
-    }
-    */
-
     // TODO: check how to capture drops out of buttons!!!
     onDrop(e) {
         this.props.dropPiece(this);
