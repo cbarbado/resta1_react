@@ -8,13 +8,11 @@ class Header extends Component {
         this.props.resetBoard();
     }
 
-    // TODO: Implement "undo" action.
     onUndo = (e) => {
         e.preventDefault();
         this.props.undoMove();
     }
 
-    // TODO: Implement "redo" action.
     onRedo = (e) => {
         e.preventDefault();
         this.props.redoMove();
