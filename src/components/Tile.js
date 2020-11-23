@@ -14,7 +14,6 @@ class Tile extends Component {
         this.onDragEnd = this.onDragEnd.bind(this);
     }
 
-    // TODO: check how to capture drops out of buttons!!!
     onDrop(e) {
         this.props.dropPiece(this);
     }
@@ -34,7 +33,7 @@ class Tile extends Component {
                             onDrop={(e) => {this.onDrop(e)}}
                             onDragOver={(e) => e.preventDefault()}
                             onDragEnd={(e) => {this.onDragEnd(e)}}
-                            className={'btn-floating btn-large waves-effect waves-light grey lighten-2'}>
+                            className={'btn-floating waves-effect waves-light grey lighten-2'}>
                         </button>
             case "2":
                 return <button
@@ -43,14 +42,14 @@ class Tile extends Component {
                             onDrop={(e) => {this.onDrop(e)}}
                             onDragOver={(e) => e.preventDefault()}
                             onDragEnd={(e) => {this.onDragEnd(e)}}
-                            className={'btn-floating btn-large waves-effect waves-light blue'}>
+                            className={'btn-floating waves-effect waves-light blue'}>
                         </button>
             case "3":
                 return <button
                             onDrop={(e) => {this.onDrop(e)}}
                             onDragOver={(e) => e.preventDefault()}
                             onDragEnd={(e) => {this.onDragEnd(e)}}
-                            className={'btn-floating btn-large waves-effect waves-light blue lighten-4'}>
+                            className={'btn-floating waves-effect waves-light blue lighten-4'}>
                         </button>
             default:
                 return <p></p>
