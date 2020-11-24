@@ -58,9 +58,7 @@ class Tile extends Component {
     
     render() {
         return (
-            <div>
-                {this.renderTile()}
-            </div>
+            this.renderTile()
         )
     }
 }

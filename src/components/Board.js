@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 //TODO: Make board responsive
-//TODO: move to default.css in index.html file
 import './Board.css';
 
 import Tile from './Tile';
@@ -17,7 +16,7 @@ class Board extends Component {
         return(
             row.map((col) => {
                 return(
-                    <div key={col.id} className="col s1 nomargin">
+                    <div key={col.id} className="tile">
                         <Tile id={col.id} status={col.status}/>
                     </div>
                 );
@@ -26,23 +25,19 @@ class Board extends Component {
     }
 
     renderBoard() {
-        let count = 0;
         return this.props.board.map((row) => {
-            const row_key = "row" + count++;
             return (
-                <div key={row_key} className="row">
-                    <div className="flexbox">
-                        {this.renderRow(row)}
-                    </div>
-                </div>
+                this.renderRow(row)
             );
         });
     }
 
     render() {
         return (
-            <div>
-                {this.renderBoard()}
+            <div className="content">
+                <div className="board">
+                    {this.renderBoard()}
+                </div>
             </div>
         );
     }
