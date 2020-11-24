@@ -23,7 +23,7 @@ class Header extends Component {
             <nav>
                 <div className="nav-wrapper" style={{marginLeft: '15px'}}>
                     <span className="left brand-logo">
-                        Peg Solitaire - React
+                        Peg Solitaire
                     </span>
                     <ul className="right">
                         <li><a href="/#" onClick={this.onUndo}><i className="material-icons" style={{fontSize: "40px"}}>undo</i></a></li>

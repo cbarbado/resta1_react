@@ -2,14 +2,85 @@
     box-sizing: border-box;
 }
 
+/*
+No .btn-floating, usa:
+padding-bottom: 100%;
+width: 100%;
+height: 0;
+
+Ele sempre vai ficar com a mesma largura e altura..
+
+O padding com % usa a largura do pai como referência. Então, width 100% e padding bottom 100% vai fazer que ambas as medidas sejam iguais a largura do pai..
+
+Não tem 100% de suporte e navegadores mais antigos, mas esse jogo fica legal usar CSS Grids..
+https://css-tricks.com/snippets/css/complete-guide-grid/
+*/
+
+.btn-floating {
+    padding-bottom: 150%;
+    width: 150%;
+    height: 0;
+}
+
+.row {
+    margin-bottom: 1.5%;
+}
+
+@media only screen and (min-width: 720px) {
+    .btn-floating {
+        padding-bottom: 125%;
+        width: 125%;
+        height: 0;
+    }
+    
+    .row {
+        margin-bottom: 1.5%;
+    }
+}    
+
+/*
+@media only screen and (min-width: 992px) {
+    .btn-floating {
+        padding-bottom: 125%;
+        width: 125%;
+        height: 0;
+    }
+    
+    .row {
+        margin-bottom: 1.5%;
+    }
+}
+*/
+
+@media only screen and (min-width: 1200px) {
+    .btn-floating {
+        padding-bottom: 110%;
+        width: 110%;
+        height: 0;
+    }
+    
+    .row {
+        margin-bottom: 1.5%;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .btn-floating {
+        padding-bottom: 80%;
+        width: 80%;
+        height: 0;
+    }
+    
+    .row {
+        margin-bottom: 1.5%;
+    }
+}
+
+/*
 .btn-floating {
     width: 32px;
     height: 32px;
     line-height: 32px;
-}
-
-.row {
-    margin-bottom: 16px;
 }
 
 @media only screen and (min-width: 720px) {
@@ -59,4 +130,4 @@
         margin-bottom: 32px;
     }
 }
-
+*/
