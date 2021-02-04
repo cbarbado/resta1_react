@@ -5,24 +5,24 @@ export const clickTile = tile => {
     };
 };
 
-export const pickPiece = position => {
+export const pickPiece = id => {
     return {
         type: 'PICK_PIECE',
-        payload: position
+        payload: id
     };
 };
 
-export const dropPiece = position => {
+export const dropPiece = id => {
     return {
         type: 'DROP_PIECE',
-        payload: position
+        payload: id
     };
 };
 
-export const releasePiece = position => {
+export const releasePiece = () => {
     return {
         type: 'RELEASE_PIECE',
-        payload: position
+        payload: null
     };
 };
 
