@@ -14,20 +14,10 @@ class GameBoard {
     static BOARD_SIZE = 9;
 
     constructor () {
-        this.pickX = null;
-        this.pickY = null;  
-        this.board = [];
+        this.pickPos     = null;
+        this.board       = [];
         this.undoHistory = [];
         this.redoHistory = [];
-    }
-
-    // TODO: convert to linear array access
-    linearPos(x,y) {
-        return (y * GameBoard.BOARD_SIZE + x);
-    }
-
-    matrixPos(i) {
-        return {x: i % (GameBoard.BOARD_SIZE), y: Math.floor(i / GameBoard.BOARD_SIZE)};
     }
 
     restoreBoard(board) {
@@ -45,15 +35,12 @@ class GameBoard {
     }
 
     pick(i) {
-        var pos = this.matrixPos(i);
-        if(this.board[this.linearPos(pos.x,pos.y)] === 2) {
-            this.board[this.linearPos(pos.x,pos.y)] = 3;
-            this.pickX = pos.x;
-            this.pickY = pos.y;  
+        if(this.board[i] === 2) {
+            this.board[i] = 3;
+            this.pickPos  = i;
         }
         else {
-            this.pickX = null;
-            this.pickY = null;  
+            this.pickPos = null;
         }
         return [...this.board];
     }
@@ -74,28 +61,28 @@ class GameBoard {
         return [...this.board];
     }
 
-    validMove (dropX, dropY) {
-        if(this.board[this.linearPos(dropX,dropY)] === 1) { // target tile is free
-            if(this.pickY === dropY) { // HORIZONTAL MOVE
-                if(dropX - this.pickX === 2) { // moving 2 tiles to the right
-                    if(this.board[this.linearPos(this.pickX + 1,this.pickY)] === 2) { // middle tile is filled
+    validMove (dropPos) {
+        if(this.board[dropPos] === 1) { // target tile is free
+            if(Math.floor(this.pickPos / GameBoard.BOARD_SIZE) === Math.floor(dropPos / GameBoard.BOARD_SIZE)) { // HORIZONTAL MOVE
+                if(dropPos - this.pickPos === 2) { // moving 2 tiles to the right
+                    if(this.board[this.pickPos + 1] === 2) { // middle tile is filled
                         return true;
                     }
                 }
-                if(dropX - this.pickX === -2) {// moving 2 tiles to the left
-                    if(this.board[this.linearPos(this.pickX - 1,this.pickY)] === 2) { // middle tile is filled
+                if(dropPos - this.pickPos === -2) {// moving 2 tiles to the left
+                    if(this.board[this.pickPos - 1] === 2) { // middle tile is filled
                         return true;
                     }
                 }
             }
-            if(this.pickX === dropX) { // HORIZONTAL MOVE
-                if(dropY - this.pickY === 2) { // moving 2 tiles down
-                    if(this.board[this.linearPos(this.pickX,this.pickY + 1)] === 2) { // middle tile is filled
+            if((this.pickPos % GameBoard.BOARD_SIZE) === (dropPos % GameBoard.BOARD_SIZE)) { // HORIZONTAL MOVE
+                if(dropPos - this.pickPos === (2 * GameBoard.BOARD_SIZE)) { // moving 2 tiles down
+                    if(this.board[this.pickPos + GameBoard.BOARD_SIZE] === 2) { // middle tile is filled
                         return true;
                     }
                 }
-                if(dropY - this.pickY === -2) {// moving 2 tiles up
-                    if(this.board[this.linearPos(this.pickX, this.pickY - 1)] === 2) { // middle tile is filled
+                if(dropPos - this.pickPos === (-2 * GameBoard.BOARD_SIZE)) {// moving 2 tiles up
+                    if(this.board[this.pickPos - GameBoard.BOARD_SIZE] === 2) { // middle tile is filled
                         return true;
                     }
                 }
@@ -105,37 +92,36 @@ class GameBoard {
     }
     
     unpick() {
-        this.board[this.linearPos(this.pickX, this.pickY)] = 2;
+        this.board[this.pickPos] = 2;
     }
 
     release() {
-        if(this.pickX !== null) {
-            this.board[this.linearPos(this.pickX,this.pickY)] = 2;
+        if(this.pickPos !== null) {
+            this.board[this.pickPos] = 2;
         }
         return [...this.board];
     }
 
-    move(i) {
-        var pos = this.matrixPos(i);
-        if(this.validMove(pos.x,pos.y)) {
-            this.board[this.linearPos(this.pickX,this.pickY)] = 2;
+    move(dropPos) {
+        if(this.validMove(dropPos)) {
+            this.board[this.pickPos] = 2;
             this.saveBoard(this.undoHistory);
-            this.board[this.linearPos(pos.x,pos.y)] = 2;
-            this.board[this.linearPos(this.pickX,this.pickY)] = 1;
-            if(this.pickY === pos.y) { // HORIZONTAL MOVE
-                if(pos.x - this.pickX === 2) { // moving right
-                    this.board[this.linearPos(this.pickX + 1,this.pickY)] = 1;
+            this.board[dropPos] = 2;
+            this.board[this.pickPos] = 1;
+            if(Math.floor(this.pickPos / GameBoard.BOARD_SIZE) === Math.floor(dropPos / GameBoard.BOARD_SIZE)) { // HORIZONTAL MOVE
+                if(dropPos - this.pickPos === 2) { // moving right
+                    this.board[this.pickPos + 1] = 1;
                 }
                 else {
-                    this.board[this.linearPos(this.pickX - 1, this.pickY)] = 1;
+                    this.board[this.pickPos - 1] = 1;
                 }
             }
-            else { // HORIZONTAL MOVE
-                if(pos.y - this.pickY === 2) { // moving down
-                    this.board[this.linearPos(this.pickX,this.pickY + 1)] = 1;
+            else { // VERTICAL MOVE
+                if(dropPos - this.pickPos === (2 * GameBoard.BOARD_SIZE)) { // moving 2 tiles down
+                    this.board[this.pickPos + GameBoard.BOARD_SIZE] = 1;
                 }
                 else {
-                    this.board[this.linearPos(this.pickX, this.pickY - 1)] = 1;
+                    this.board[this.pickPos - GameBoard.BOARD_SIZE] = 1;
                 }
             }
         }
@@ -143,8 +129,7 @@ class GameBoard {
             this.unpick();
         }
 
-        this.pickX = null;
-        this.pickY = null;
+        this.pickPos = null;
 
         return [...this.board];
     }
