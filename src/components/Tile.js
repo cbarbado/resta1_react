@@ -28,14 +28,14 @@ class Tile extends Component {
 
     renderTile() {
         switch (this.props.status) {
-            case "1":
+            case 1:
                 return <button
                             onDrop={(e) => {this.onDrop(e)}}
                             onDragOver={(e) => e.preventDefault()}
                             onDragEnd={(e) => {this.onDragEnd(e)}}
                             className={'btn-floating waves-effect waves-light grey lighten-2'}>
                         </button>
-            case "2":
+            case 2:
                 return <button
                             draggable="true"
                             onDragStart={(e) => {this.onDrag(e)}}
@@ -44,7 +44,7 @@ class Tile extends Component {
                             onDragEnd={(e) => {this.onDragEnd(e)}}
                             className={'btn-floating waves-effect waves-light blue'}>
                         </button>
-            case "3":
+            case 3:
                 return <button
                             onDrop={(e) => {this.onDrop(e)}}
                             onDragOver={(e) => e.preventDefault()}

@@ -12,22 +12,12 @@ class Board extends Component {
         this.props.resetBoard();
     }
 
-    renderRow(row) {
-        return(
-            row.map((col) => {
-                return(
-                    <div key={col.id} className="tile">
-                        <Tile id={col.id} status={col.status}/>
-                    </div>
-                );
-            })
-        );
-    }
-
     renderBoard() {
-        return this.props.board.map((row) => {
+        return this.props.board.map((tile) => {
             return (
-                this.renderRow(row)
+                <div key={tile.id} className="tile">
+                    <Tile id={tile.id} status={tile.status}/>
+                </div>
             );
         });
     }

@@ -9,17 +9,11 @@ const boardReducer = (board = [], action) => {
     }
 
     if (action.type === 'PICK_PIECE') {
-        const posX = parseInt(action.payload.props.id) % 10;
-        const posY = parseInt(parseInt(action.payload.props.id) / 10);
-
-        return gameBoard.pick(posX, posY);
+        return gameBoard.pick(action.payload.props.id);
     }
 
     if (action.type === 'DROP_PIECE') {
-        const posX = parseInt(action.payload.props.id) % 10;
-        const posY = parseInt(parseInt(action.payload.props.id) / 10);
-
-        return gameBoard.move(posX,posY);
+        return gameBoard.move(action.payload.props.id);
     }
 
     if (action.type === 'RELEASE_PIECE') {
