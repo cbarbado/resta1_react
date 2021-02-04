@@ -1,4 +1,5 @@
 class GameBoard {
+    // 0 -> disabled; 1 -> empty; 2 -> filled; 3 -> picked
     static BOARD_LAYOUT = [ 0, 0, 0, 2, 2, 2, 0, 0, 0,
                             0, 0, 0, 2, 2, 2, 0, 0, 0,
                             0, 0, 0, 2, 2, 2, 0, 0, 0,
@@ -16,9 +17,11 @@ class GameBoard {
         this.pickX = null;
         this.pickY = null;  
         this.board = [];
-        this.boardHistory = [];
+        this.undoHistory = [];
+        this.redoHistory = [];
     }
 
+    // TODO: convert to linear array access
     linearPos(x,y) {
         return (y * GameBoard.BOARD_SIZE + x);
     }
@@ -32,9 +35,8 @@ class GameBoard {
         return [...this.board];
     }
 
-    saveBoard() {
-        this.boardHistory.push(this.board.slice());
-        console.log(this.boardHistory)
+    saveBoard(saveArray) {
+        saveArray.push(this.board.slice());
     }
 
     resetBoard() {
@@ -57,15 +59,18 @@ class GameBoard {
     }
 
     undoMove() {
-        if(this.boardHistory.length > 0) {
-            this.restoreBoard(this.boardHistory.pop());
+        if(this.undoHistory.length > 0) {
+            this.saveBoard(this.redoHistory);
+            this.restoreBoard(this.undoHistory.pop());
         }
         return [...this.board];
     }
 
     redoMove() {
-        // TODO: Implement redo
-        console.log("redo")
+        if(this.redoHistory.length > 0) {
+            this.saveBoard(this.undoHistory);
+            this.restoreBoard(this.redoHistory.pop());
+        }
         return [...this.board];
     }
 
@@ -110,12 +115,11 @@ class GameBoard {
         return [...this.board];
     }
 
-    // TODO: Implement save moves
     move(i) {
         var pos = this.matrixPos(i);
         if(this.validMove(pos.x,pos.y)) {
             this.board[this.linearPos(this.pickX,this.pickY)] = 2;
-            this.saveBoard();
+            this.saveBoard(this.undoHistory);
             this.board[this.linearPos(pos.x,pos.y)] = 2;
             this.board[this.linearPos(this.pickX,this.pickY)] = 1;
             if(this.pickY === pos.y) { // HORIZONTAL MOVE
