@@ -13,10 +13,10 @@ class Board extends Component {
     }
 
     renderBoard() {
-        return this.props.board.map((tile) => {
+        return this.props.board.map((status,index) => {
             return (
-                <div key={tile.id} className="tile">
-                    <Tile id={tile.id} status={tile.status}/>
+                <div key={index} className="tile">
+                    <Tile id={index} status={status}/>
                 </div>
             );
         });

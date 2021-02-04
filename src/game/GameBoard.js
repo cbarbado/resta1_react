@@ -28,27 +28,24 @@ class GameBoard {
     }
 
     restoreBoard(board) {
-        this.board = board.map(a => ({...a}));
+        this.board = board.slice();
         return [...this.board];
     }
 
     saveBoard() {
-        this.boardHistory.push(this.board.map(a => ({...a})));
+        this.boardHistory.push(this.board.slice());
         console.log(this.boardHistory)
     }
 
     resetBoard() {
-        this.board = [];
-        for(let i = 0; i < GameBoard.BOARD_LAYOUT.length; i++) {
-            this.board.push({id: i, status: GameBoard.BOARD_LAYOUT[i]},);
-        }        
+        this.board = GameBoard.BOARD_LAYOUT.slice();
         return [...this.board];
     }
 
     pick(i) {
         var pos = this.matrixPos(i);
-        if(this.board[this.linearPos(pos.x,pos.y)].status === 2) {
-            this.board[this.linearPos(pos.x,pos.y)].status = 3;
+        if(this.board[this.linearPos(pos.x,pos.y)] === 2) {
+            this.board[this.linearPos(pos.x,pos.y)] = 3;
             this.pickX = pos.x;
             this.pickY = pos.y;  
         }
@@ -73,27 +70,27 @@ class GameBoard {
     }
 
     validMove (dropX, dropY) {
-        if(this.board[this.linearPos(dropX,dropY)].status === 1) { // target tile is free
+        if(this.board[this.linearPos(dropX,dropY)] === 1) { // target tile is free
             if(this.pickY === dropY) { // HORIZONTAL MOVE
                 if(dropX - this.pickX === 2) { // moving 2 tiles to the right
-                    if(this.board[this.linearPos(this.pickX + 1,this.pickY)].status === 2) { // middle tile is filled
+                    if(this.board[this.linearPos(this.pickX + 1,this.pickY)] === 2) { // middle tile is filled
                         return true;
                     }
                 }
                 if(dropX - this.pickX === -2) {// moving 2 tiles to the left
-                    if(this.board[this.linearPos(this.pickX - 1,this.pickY)].status === 2) { // middle tile is filled
+                    if(this.board[this.linearPos(this.pickX - 1,this.pickY)] === 2) { // middle tile is filled
                         return true;
                     }
                 }
             }
             if(this.pickX === dropX) { // HORIZONTAL MOVE
                 if(dropY - this.pickY === 2) { // moving 2 tiles down
-                    if(this.board[this.linearPos(this.pickX,this.pickY + 1)].status === 2) { // middle tile is filled
+                    if(this.board[this.linearPos(this.pickX,this.pickY + 1)] === 2) { // middle tile is filled
                         return true;
                     }
                 }
                 if(dropY - this.pickY === -2) {// moving 2 tiles up
-                    if(this.board[this.linearPos(this.pickX, this.pickY - 1)].status === 2) { // middle tile is filled
+                    if(this.board[this.linearPos(this.pickX, this.pickY - 1)] === 2) { // middle tile is filled
                         return true;
                     }
                 }
@@ -103,12 +100,12 @@ class GameBoard {
     }
     
     unpick() {
-        this.board[this.linearPos(this.pickX, this.pickY)].status = 2;
+        this.board[this.linearPos(this.pickX, this.pickY)] = 2;
     }
 
     release() {
         if(this.pickX !== null) {
-            this.board[this.linearPos(this.pickX,this.pickY)].status = 2;
+            this.board[this.linearPos(this.pickX,this.pickY)] = 2;
         }
         return [...this.board];
     }
@@ -117,24 +114,24 @@ class GameBoard {
     move(i) {
         var pos = this.matrixPos(i);
         if(this.validMove(pos.x,pos.y)) {
-            this.board[this.linearPos(this.pickX,this.pickY)].status = 2;
+            this.board[this.linearPos(this.pickX,this.pickY)] = 2;
             this.saveBoard();
-            this.board[this.linearPos(pos.x,pos.y)].status = 2;
-            this.board[this.linearPos(this.pickX,this.pickY)].status = 1;
+            this.board[this.linearPos(pos.x,pos.y)] = 2;
+            this.board[this.linearPos(this.pickX,this.pickY)] = 1;
             if(this.pickY === pos.y) { // HORIZONTAL MOVE
                 if(pos.x - this.pickX === 2) { // moving right
-                    this.board[this.linearPos(this.pickX + 1,this.pickY)].status = 1;
+                    this.board[this.linearPos(this.pickX + 1,this.pickY)] = 1;
                 }
                 else {
-                    this.board[this.linearPos(this.pickX - 1, this.pickY)].status = 1;
+                    this.board[this.linearPos(this.pickX - 1, this.pickY)] = 1;
                 }
             }
             else { // HORIZONTAL MOVE
                 if(pos.y - this.pickY === 2) { // moving down
-                    this.board[this.linearPos(this.pickX,this.pickY + 1)].status = 1;
+                    this.board[this.linearPos(this.pickX,this.pickY + 1)] = 1;
                 }
                 else {
-                    this.board[this.linearPos(this.pickX, this.pickY - 1)].status = 1;
+                    this.board[this.linearPos(this.pickX, this.pickY - 1)] = 1;
                 }
             }
         }
