@@ -27,31 +27,17 @@ class GameBoard {
         return {x: i % (GameBoard.BOARD_SIZE), y: Math.floor(i / GameBoard.BOARD_SIZE)};
     }
 
-    restoreBoard(board = GameBoard.BOARD_LAYOUT) {
-        this.board = [];
-        for(let i = 0; i < board.length; i++) {
-            this.board.push({id: i, status: board[i]},);
-        }        
+    restoreBoard(board) {
+        this.board = board.map(a => ({...a}));
         return [...this.board];
     }
 
     saveBoard() {
-        var tmpBoard = [];
-        for(let i = 0; i < this.board.length; i++) {
-            if(this.board[i].status === 3) {
-                this.board[i].status = 2;
-            }
-            tmpBoard.push(this.board[i].status);
-        }
-        this.boardHistory.push(tmpBoard);
+        this.boardHistory.push(this.board.map(a => ({...a})));
+        console.log(this.boardHistory)
     }
 
     resetBoard() {
-        this.restoreBoard();
-        return [...this.board];
-    }
-
-    resetBoard2() {
         this.board = [];
         for(let i = 0; i < GameBoard.BOARD_LAYOUT.length; i++) {
             this.board.push({id: i, status: GameBoard.BOARD_LAYOUT[i]},);
@@ -74,9 +60,6 @@ class GameBoard {
     }
 
     undoMove() {
-        // TODO: Implement undo
-        console.log("undo")
-        console.log(this.boardHistory[0]);
         if(this.boardHistory.length > 0) {
             this.restoreBoard(this.boardHistory.pop());
         }
@@ -134,9 +117,10 @@ class GameBoard {
     move(i) {
         var pos = this.matrixPos(i);
         if(this.validMove(pos.x,pos.y)) {
+            this.board[this.linearPos(this.pickX,this.pickY)].status = 2;
             this.saveBoard();
-            this.board[this.linearPos(this.pickX,this.pickY)].status = 1;
             this.board[this.linearPos(pos.x,pos.y)].status = 2;
+            this.board[this.linearPos(this.pickX,this.pickY)].status = 1;
             if(this.pickY === pos.y) { // HORIZONTAL MOVE
                 if(pos.x - this.pickX === 2) { // moving right
                     this.board[this.linearPos(this.pickX + 1,this.pickY)].status = 1;
