@@ -16,6 +16,7 @@ class GameBoard {
         this.pickX = null;
         this.pickY = null;  
         this.board = [];
+        this.boardHistory = [];
     }
 
     linearPos(x,y) {
@@ -26,11 +27,34 @@ class GameBoard {
         return {x: i % (GameBoard.BOARD_SIZE), y: Math.floor(i / GameBoard.BOARD_SIZE)};
     }
 
-    resetBoard () {
+    restoreBoard(board = GameBoard.BOARD_LAYOUT) {
+        this.board = [];
+        for(let i = 0; i < board.length; i++) {
+            this.board.push({id: i, status: board[i]},);
+        }        
+        return [...this.board];
+    }
+
+    saveBoard() {
+        var tmpBoard = [];
+        for(let i = 0; i < this.board.length; i++) {
+            if(this.board[i].status === 3) {
+                this.board[i].status = 2;
+            }
+            tmpBoard.push(this.board[i].status);
+        }
+        this.boardHistory.push(tmpBoard);
+    }
+
+    resetBoard() {
+        this.restoreBoard();
+        return [...this.board];
+    }
+
+    resetBoard2() {
         this.board = [];
         for(let i = 0; i < GameBoard.BOARD_LAYOUT.length; i++) {
             this.board.push({id: i, status: GameBoard.BOARD_LAYOUT[i]},);
-            console.log(this.board[i]);
         }        
         return [...this.board];
     }
@@ -52,6 +76,10 @@ class GameBoard {
     undoMove() {
         // TODO: Implement undo
         console.log("undo")
+        console.log(this.boardHistory[0]);
+        if(this.boardHistory.length > 0) {
+            this.restoreBoard(this.boardHistory.pop());
+        }
         return [...this.board];
     }
 
@@ -106,6 +134,7 @@ class GameBoard {
     move(i) {
         var pos = this.matrixPos(i);
         if(this.validMove(pos.x,pos.y)) {
+            this.saveBoard();
             this.board[this.linearPos(this.pickX,this.pickY)].status = 1;
             this.board[this.linearPos(pos.x,pos.y)].status = 2;
             if(this.pickY === pos.y) { // HORIZONTAL MOVE
