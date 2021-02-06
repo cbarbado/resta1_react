@@ -31,6 +31,15 @@ const boardReducer = (board = [], action) => {
     return board;
 }
 
+const initState = {
+    undo: 0,
+    redo: 0
+}
+const headerReducer = (undo = initState, action) => {
+    return {undo: gameBoard.undoHistory.length, redo: gameBoard.redoHistory.length}
+}
+
 export default combineReducers ({
     board: boardReducer,
+    header: headerReducer,
 })
